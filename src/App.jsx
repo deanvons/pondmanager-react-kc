@@ -4,17 +4,19 @@ import keycloak from "../keycloak.js";
 import "./App.css";
 import DuckListPage from "./components/pages/DuckListPage.jsx";
 import UserStatus from "./components/userStatus.jsx";
-
+import ProfessorProfilePage from "./components/pages/ProfessorProfilePage.jsx";
+import authGuard from "./components/guards/authGuard.jsx";
+const ProtectedProfilePage = authGuard(ProfessorProfilePage);
 function App() {
   useEffect(() => console.log(keycloak), []);
 
   return (
     <>
-   <UserStatus/>
       <Router>
+        <UserStatus />
         <Routes>
-          // where is this page, swap based on url
           <Route path="/" element={<DuckListPage />} />
+          <Route path="/profile" element={<ProtectedProfilePage />} />
         </Routes>
       </Router>
     </>

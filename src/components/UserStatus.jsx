@@ -1,13 +1,21 @@
 import React from "react";
 import keycloak from "../../keycloak";
+import { useNavigate } from "react-router-dom";
 
 export default function UserStatus() {
+const navigate = useNavigate()
+
+
   function logout() {
     keycloak.logout();
   }
 
   function login() {
     keycloak.login();
+  }
+
+   function toProfile() {
+    navigate("/profile")
   }
 
   return (
@@ -22,6 +30,7 @@ export default function UserStatus() {
       </ul>: <p>No user logged in </p>}
       <button onClick={login}>Login</button>
       <button onClick={logout}>Logout</button>
+      <button onClick={toProfile}>Go to Profile</button>
     </div>
   );
 }
