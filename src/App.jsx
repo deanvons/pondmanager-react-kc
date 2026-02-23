@@ -6,7 +6,10 @@ import DuckListPage from "./components/pages/DuckListPage.jsx";
 import UserStatus from "./components/userStatus.jsx";
 import ProfessorProfilePage from "./components/pages/ProfessorProfilePage.jsx";
 import authGuard from "./components/guards/authGuard.jsx";
+import DuckRegisterPage from "./components/pages/DuckRegisterPage.jsx";
+import wranglerGuard from "./components/guards/DuckWranglerGuard.jsx";
 const ProtectedProfilePage = authGuard(ProfessorProfilePage);
+const ProtectedDuckRegisterPage = wranglerGuard(DuckRegisterPage);
 function App() {
   useEffect(() => console.log(keycloak), []);
 
@@ -17,6 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<DuckListPage />} />
           <Route path="/profile" element={<ProtectedProfilePage />} />
+          <Route path="/duckform" element={< ProtectedDuckRegisterPage />} />
         </Routes>
       </Router>
     </>

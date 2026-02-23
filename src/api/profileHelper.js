@@ -17,6 +17,17 @@ export function apiProfileGet(path) {
   });
 }
 
+export function apiProfileUpdate(url, body) {
+  return fetch(url, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${keycloak.token}`,
+    },
+    body: JSON.stringify(body),
+  }).then(res => res.json());
+}
+
 export function apiProfilePost(path, body) {
   return fetch(path, {
     method: "POST",
