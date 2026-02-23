@@ -1,0 +1,8 @@
+{
+  "realm": "pondmanager",
+  "auth-server-url": "https://lemur-4.cloud-iam.com/auth/",
+  "ssl-required": "external",
+  "resource": "react-pondmanager",
+  "public-client": true,
+  "confidential-port": 0
+}
