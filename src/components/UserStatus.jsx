@@ -1,17 +1,25 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import keycloak from "../../keycloak";
 import { useNavigate } from "react-router-dom";
 
 export default function UserStatus() {
   const navigate = useNavigate();
-
-  const showFormButton = useRef(false);
+  const [showFormButton, setShowFormButton] = useState(false);
+   const [showAdminPageButton, setshowAdminPageButton] = useState(false);
 
   useEffect(() => {
-    if (keycloak.authenticated) {
-      if (keycloak.tokenParsed.realm_access.roles.includes("DuckWrangler")) {
-        showFormButton.current = true;
-      }
+    if (
+      keycloak.authenticated &&
+      keycloak.tokenParsed?.realm_access?.roles?.includes("DuckWrangler")
+    ) {
+      setShowFormButton(true);
+    }
+
+        if (
+      keycloak.authenticated &&
+      keycloak.tokenParsed?.realm_access?.roles?.includes("DuckAdmin")
+    ) {
+      setshowAdminPageButton(true);
     }
   }, []);
 
@@ -31,31 +39,43 @@ export default function UserStatus() {
     navigate("/duckform");
   }
 
+   function toAdminPage() {
+    navigate("/admin");
+  }
+
   return (
-    <div>
+    <div className="user-status-compact">
       {keycloak.authenticated ? (
-        <ul>
-          <li>Logged in: {String(keycloak.authenticated)}</li>
+        <ul className="user-status-list">
           <li>
-            Welcome{" "}
-            {keycloak.tokenParsed.given_name +
-              " " +
-              keycloak.tokenParsed.family_name}
+            <strong>{keycloak.tokenParsed.given_name}{" "}
+            {keycloak.tokenParsed.family_name}</strong>
           </li>
-          <li>Username: {keycloak.tokenParsed.preferred_username}</li>
-          <li>Email: {keycloak.tokenParsed.email}</li>
-          <li>KC Id: {keycloak.tokenParsed.sub}</li>
-          <li>Roles: {keycloak.tokenParsed.realm_access.roles}</li>
+          <li>@{keycloak.tokenParsed.preferred_username}</li>
+          <li>{keycloak.tokenParsed.email}</li>
+          <li className="roles">
+            {keycloak.tokenParsed.realm_access.roles.join(", ")}
+          </li>
         </ul>
       ) : (
-        <p>No user logged in </p>
+        <p className="user-status-empty">Not logged in</p>
       )}
-      <button onClick={login}>Login</button>
-      <button onClick={logout}>Logout</button>
-      <button onClick={toProfile}>Go to Profile</button>
-      {showFormButton.current && (
-        <button onClick={toRegisterPage}>Register a Duck</button>
-      )}
+
+      <div className="user-status-actions">
+        {!keycloak.authenticated ? (
+          <button onClick={login}>Login</button>
+        ) : (
+          <button onClick={logout}>Logout</button>
+        )}
+        <button onClick={toProfile}>Profile</button>
+        {showFormButton && (
+          <button onClick={toRegisterPage}>Register Duck</button>
+        )}
+
+         {showAdminPageButton && (
+          <button onClick={toAdminPage}>Admin Page</button>
+        )}
+      </div>
     </div>
   );
 }

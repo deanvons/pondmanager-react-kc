@@ -8,6 +8,7 @@ import ProfessorProfilePage from "./components/pages/ProfessorProfilePage.jsx";
 import authGuard from "./components/guards/authGuard.jsx";
 import DuckRegisterPage from "./components/pages/DuckRegisterPage.jsx";
 import wranglerGuard from "./components/guards/DuckWranglerGuard.jsx";
+import AdminPage from "./components/pages/AdminPage.jsx";
 const ProtectedProfilePage = authGuard(ProfessorProfilePage);
 const ProtectedDuckRegisterPage = wranglerGuard(DuckRegisterPage);
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/" element={<DuckListPage />} />
           <Route path="/profile" element={<ProtectedProfilePage />} />
           <Route path="/duckform" element={< ProtectedDuckRegisterPage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </Router>
     </>

@@ -19,5 +19,5 @@ export default function DuckList() {
 
   const duckList = ducks.map((duck, index) => <Duck duck={duck} key={index} />);
 
-  return <div>{duckList}</div>;
+  return <div className="duck-list">{duckList}</div>;
 }
